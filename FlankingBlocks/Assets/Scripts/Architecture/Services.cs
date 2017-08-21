@@ -30,4 +30,16 @@ public abstract class Services {
 
 		set { inputManage = value; }
 	}
+
+
+	//grid
+	private static GridManager gridManage;
+	public static GridManager GridManage {
+		get {
+			Debug.Assert(gridManage != null);
+			return gridManage;
+		}
+
+		set { gridManage = value; }
+	}
 }

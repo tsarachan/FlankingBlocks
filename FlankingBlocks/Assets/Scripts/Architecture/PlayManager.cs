@@ -10,12 +10,14 @@ public class PlayManager : MonoBehaviour {
 
 
 	/// <summary>
-	/// Initialize variables and objects
+	/// Initialize services
 	/// </summary>
 	private void Start(){
 		Services.EventSys = new EventSystem();
 		Services.InputManage = new InputManager();
 		Services.InputManage.Init();
+		Services.GridManage = new GridManager();
+		Services.GridManage.Init();
 	}
 
 
