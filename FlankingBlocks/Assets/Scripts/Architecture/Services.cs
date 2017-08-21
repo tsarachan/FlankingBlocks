@@ -18,4 +18,16 @@ public abstract class Services {
 
 		set { eventSys = value; }
 	}
+
+
+	//input manager
+	private static InputManager inputManage;
+	public static InputManager InputManage {
+		get {
+			Debug.Assert(inputManage != null);
+			return inputManage;
+		}
+
+		set { inputManage = value; }
+	}
 }

@@ -14,6 +14,8 @@ public class PlayManager : MonoBehaviour {
 	/// </summary>
 	private void Start(){
 		Services.EventSys = new EventSystem();
+		Services.InputManage = new InputManager();
+		Services.InputManage.Init();
 	}
 
 
@@ -22,6 +24,6 @@ public class PlayManager : MonoBehaviour {
 	/// no object is allowed to have its own.
 	/// </summary>
 	private void Update(){
-
+		Services.InputManage.Tick();
 	}
 }
