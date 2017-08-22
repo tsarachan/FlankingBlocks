@@ -8,7 +8,7 @@
 
 using UnityEngine;
 
-public class BlockSandbox : MonoBehaviour {
+public abstract class BlockSandbox : MonoBehaviour {
 
 
 	//is this player 1's block, or player 2's?
@@ -30,12 +30,22 @@ public class BlockSandbox : MonoBehaviour {
 	protected Tuple<int, int> RIGHT = new Tuple<int, int>(1, 0);
 
 
+	//is this block in motion?
+	public bool IsMoving { get; set; }
+
+
+	//is this block pushable? (player-controlled pieces generally are not)
+	public bool Pushable { get; protected set; }
+
+
 
 	/// <summary>
 	/// Initialize a block with a starting location and facing, and establish a starting facing
 	/// based on whether this is player 1's block or player 2's.
 	/// 
 	/// The starting facing assumes that player 1's blocks start out facing right, while player 2's face left.
+	/// 
+	/// This version of Init assumes that it's initializing a pushable block.
 	/// </summary>
 	/// <param name="startHoriz">Starting x-position in the grid.</param>
 	/// <param name="startVert">Start y-position in the grid.</param>
@@ -44,18 +54,59 @@ public class BlockSandbox : MonoBehaviour {
 		currentLocation = new Tuple<int, int>(startX, startY);
 		this.playerNum = playerNum;
 		currentFacing = (playerNum == PLAYER_1_NUM) ? RIGHT : LEFT;
+		IsMoving = false;
+		Pushable = true;
 	}
 
 
+	/// <summary>
+	/// Use the GridManager's functionality to try to move into a space.
+	/// </summary>
 	public virtual void TryMove(){
 		Services.GridManage.TryEnterGridSpace(currentLocation.Value1 + currentFacing.Value1,
 											  currentLocation.Value2 + currentFacing.Value2);
 	}
 
 
+	/// <summary>
+	/// Use the GridManager's functionality to actually move.
+	/// </summary>
 	public virtual void Move(){
+		Services.GridManage.LeaveGridSpace(currentLocation.Value1, currentLocation.Value2);
 		Services.GridManage.EnterGridSpace(currentLocation.Value1 + currentFacing.Value1,
 										   currentLocation.Value2 + currentFacing.Value2,
 										   gameObject.name);
+		transform.position = new Vector3(currentLocation.Value1 + currentFacing.Value1,
+										 currentLocation.Value2 + currentFacing.Value2,
+										 0.0f);
 	}
+
+
+	public virtual void ReceiveInput(string input){
+		switch (input){
+			case Constants.UP:
+				currentFacing = UP;
+				break;
+			case Constants.DOWN:
+				currentFacing = DOWN;
+				break;
+			case Constants.LEFT:
+				currentFacing = LEFT;
+				break;
+			case Constants.RIGHT:
+				currentFacing = RIGHT;
+				break;
+			default:
+				Debug.Log("Illegal input: " + input);
+				break;
+		}
+	}
+
+
+	public virtual void GetPushed(){
+		if (Pushable) { IsMoving = true; }
+	}
+
+
+	public abstract void GetDestroyed();
 }

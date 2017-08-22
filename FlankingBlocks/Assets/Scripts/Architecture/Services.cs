@@ -42,4 +42,16 @@ public abstract class Services {
 
 		set { gridManage = value; }
 	}
+
+
+	//block manager
+	private static BlockManager blockManage;
+	public static BlockManager BlockManage {
+		get {
+			Debug.Assert(blockManage != null);
+			return blockManage;
+		}
+
+		set { blockManage = value; }
+	}
 }

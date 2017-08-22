@@ -7,6 +7,8 @@ public class InputManager {
 	//the players
 	private Player player1;
 	private const string PLAYER_1 = "Player1";
+	private Player player2;
+	private const string PLAYER_2 = "Player2";
 
 
 	//the possible inputs; these match the Action names in Rewired
@@ -20,12 +22,13 @@ public class InputManager {
 
 	public void Init(){
 		player1 = ReInput.players.GetPlayer(PLAYER_1);
+		player2 = ReInput.players.GetPlayer(PLAYER_2);
 	}
 
 
 	public void Tick(){
 		if (player1.GetAxis(MOVE_VERT) > deadZone){
-			Debug.Log("Detected a vertical movement");
+			Services.EventSys.Fire(new InputEvent(Constants.UP));
 		}
 	}
 }

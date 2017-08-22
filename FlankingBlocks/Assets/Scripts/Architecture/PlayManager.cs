@@ -6,6 +6,7 @@
 
 using UnityEngine;
 
+
 public class PlayManager : MonoBehaviour {
 
 
@@ -18,6 +19,8 @@ public class PlayManager : MonoBehaviour {
 		Services.InputManage.Init();
 		Services.GridManage = new GridManager();
 		Services.GridManage.Init();
+		Services.BlockManage = new BlockManager();
+		Services.BlockManage.Init();
 	}
 
 
