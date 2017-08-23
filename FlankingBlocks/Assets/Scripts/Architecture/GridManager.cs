@@ -32,8 +32,22 @@
 	/// </summary>
 	/// <param name="horizCoord">The horizontal coordinate of the space to be entered.</param>
 	/// <param name="vertCoord">The vertical coordinate of the space to be entered.</param>
-	public void TryEnterGridSpace(int horizCoord, int vertCoord){
-		grid[horizCoord, vertCoord].IntendingToEnter++;
+	public bool TryEnterGridSpace(int xCoord, int yCoord){
+		if (xCoord >= 0 &&
+			xCoord < horizSize &&
+			yCoord >= 0 &&
+			yCoord < vertSize){
+			grid[xCoord, yCoord].IntendingToEnter++;
+			return true;
+		}
+
+		return false;
+			
+	}
+
+
+	public bool CheckGridSpaceRoom(int xCoord, int yCoord){
+		return grid[xCoord, yCoord].IntendingToEnter == 1 ? true : false;
 	}
 
 
@@ -45,9 +59,9 @@
 	/// <param name="horizCoord">The horizontal coordinate of the space the block is entering.</param>
 	/// <param name="vertCoord">The vertical coordinate of the space the block is entering.</param>
 	/// <param name="name">The name of the entering block.</param>
-	public void EnterGridSpace(int horizCoord, int vertCoord, string name){
-		grid[horizCoord, vertCoord].IntendingToEnter = 0;
-		grid[horizCoord, vertCoord].Occupant = name;
+	public void EnterGridSpace(int xCoord, int yCoord, string name){
+		grid[xCoord, yCoord].IntendingToEnter = 0;
+		grid[xCoord, yCoord].Occupant = name;
 	}
 
 
@@ -56,8 +70,8 @@
 	/// </summary>
 	/// <param name="horizCoord">The horizontal coordinate of the space the block is leaving.</param>
 	/// <param name="vertCoord">The vertical coordinate of the space the block is leaving.</param>
-	public void LeaveGridSpace(int horizCoord, int vertCoord){
-		grid[horizCoord, vertCoord].Occupant = NONE;
+	public void LeaveGridSpace(int xCoord, int yCoord){
+		grid[xCoord, yCoord].Occupant = NONE;
 	}
 
 

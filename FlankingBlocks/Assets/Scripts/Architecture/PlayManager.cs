@@ -30,5 +30,6 @@ public class PlayManager : MonoBehaviour {
 	/// </summary>
 	private void Update(){
 		Services.InputManage.Tick();
+		Services.BlockManage.Tick();
 	}
 }

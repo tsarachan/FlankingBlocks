@@ -29,6 +29,14 @@ public class InputManager {
 	public void Tick(){
 		if (player1.GetAxis(MOVE_VERT) > deadZone){
 			Services.EventSys.Fire(new InputEvent(Constants.UP));
+		} else if (player1.GetAxis(MOVE_VERT) < -deadZone){
+			Services.EventSys.Fire(new InputEvent(Constants.DOWN));
+		}
+
+		if (player1.GetAxis(MOVE_HORIZ) < -deadZone){
+			Services.EventSys.Fire(new InputEvent(Constants.LEFT));
+		} else if (player1.GetAxis(MOVE_HORIZ) > deadZone){
+			Services.EventSys.Fire(new InputEvent(Constants.RIGHT));
 		}
 	}
 }

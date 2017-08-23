@@ -60,24 +60,37 @@ public abstract class BlockSandbox : MonoBehaviour {
 
 
 	/// <summary>
-	/// Use the GridManager's functionality to try to move into a space.
+	/// Use the GridManager's functionality to announce an intent to enter a space.
+	/// 
+	/// If the space is out of bounds, stop trying to move.
 	/// </summary>
 	public virtual void TryMove(){
-		Services.GridManage.TryEnterGridSpace(currentLocation.Value1 + currentFacing.Value1,
-											  currentLocation.Value2 + currentFacing.Value2);
+		IsMoving = Services.GridManage.TryEnterGridSpace(currentLocation.Value1 + currentFacing.Value1,
+														 currentLocation.Value2 + currentFacing.Value2) ? true : false;
+	}
+
+
+	public virtual bool GetMovePermission(){
+		return Services.GridManage.CheckGridSpaceRoom(currentLocation.Value1 + currentFacing.Value1,
+													  currentLocation.Value2 + currentFacing.Value2) ? true : false;
 	}
 
 
 	/// <summary>
-	/// Use the GridManager's functionality to actually move.
+	/// Use the GridManager's functionality to update the block's position in the grid. Then update this
+	/// block's understanding of its own position, and move on screen.
 	/// </summary>
 	public virtual void Move(){
 		Services.GridManage.LeaveGridSpace(currentLocation.Value1, currentLocation.Value2);
 		Services.GridManage.EnterGridSpace(currentLocation.Value1 + currentFacing.Value1,
 										   currentLocation.Value2 + currentFacing.Value2,
 										   gameObject.name);
-		transform.position = new Vector3(currentLocation.Value1 + currentFacing.Value1,
-										 currentLocation.Value2 + currentFacing.Value2,
+		
+		currentLocation.Value1 += currentFacing.Value1;
+		currentLocation.Value2 += currentFacing.Value2;
+
+		transform.position = new Vector3(currentLocation.Value1,
+										 currentLocation.Value2,
 										 0.0f);
 	}
 

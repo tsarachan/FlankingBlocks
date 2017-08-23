@@ -42,23 +42,9 @@ public class PlayerBlock : BlockSandbox {
 
 
 	public override void ReceiveInput(string input){
-		switch (input){
-			case Constants.UP:
-				currentFacing = UP;
-				break;
-			case Constants.DOWN:
-				currentFacing = DOWN;
-				break;
-			case Constants.LEFT:
-				currentFacing = LEFT;
-				break;
-			case Constants.RIGHT:
-				currentFacing = RIGHT;
-				break;
-			default:
-				Debug.Log("Illegal input: " + input);
-				break;
-		}
+		base.ReceiveInput(input);
+
+		IsMoving = true;
 	}
 
 
